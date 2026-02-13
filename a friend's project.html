@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Valentine's Day Baby 😘</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Montserrat:wght@400;600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: linear-gradient(to right, #4b0082, #c8a2ff);
+      font-family: 'Montserrat', sans-serif;
+      text-align: center;
+      padding: 5vw;
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      color: #ff77b1;
+      font-size: clamp(24px, 7vw, 48px);
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      color: #8a2be2;
+      margin-top: 10px;
+      font-size: 5vw;
+    }
+
+    h3 {
+      font-family: 'Dancing Script', cursive;
+      color: #ffb3ff;
+      margin-top: 8px;
+      font-size: clamp(18px, 4vw, 28px);
+    }
+
+    .script {
+      font-family: 'Dancing Script', cursive;
+    }
+
+    .card {
+      background-color: white;
+      padding: 5vw;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      max-width: 600px;
+      margin: auto;
+      transition: transform 0.6s ease, opacity 0.6s ease;
+    }
+
+    .button-container {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    button {
+      padding: 12px 28px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      font-family: 'Montserrat', sans-serif;
+      transition: all 0.3s ease;
+      color: white;
+    }
+
+    #yesBtn { background: #8a2be2; }
+    #noBtn { background: #ff77b1; }
+
+    .hearts, .hearts2 {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: visible;
+      z-index: 999;
+    }
+
+    .heart {
+      position: absolute;
+      top: -10px;
+      font-size: 20px;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts" id="hearts"></div>
+  <div class="hearts2" id="hearts2"></div>
+
+  <!-- First card -->
+  <div class="card" id="card1">
+    <h1>Hey baby, made it for you</h1>
+    <h2>Valentine is close</h2>
+    <h3>Will you be my Valentine?</h3>
+
+    <div class="button-container">
+      <button id="yesBtn">Yes</button>
+      <button id="noBtn">No</button>
+    </div>
+  </div>
+
+  <!-- Second card -->
+<div class="card" id="card2" style="display:none;">
+  <h1 class="script">I knew you would say yes 💖</h1>
+  <img src="https://cdn.pixabay.com/animation/2023/03/14/13/20/13-20-08-313_512.gif"
+       alt="Cute hugging bears GIF"
+       style="width:250px; margin:20px auto; display:block;">
+</div>
+
+
+  <script>
+    // --- Buttons and cards ---
+    let yesBtn = document.getElementById('yesBtn');
+    let noBtn = document.getElementById('noBtn');
+    let card1 = document.getElementById('card1');
+    let card2 = document.getElementById('card2');
+
+    let yesSize = 1;
+
+    // No button grows Yes button
+    noBtn.addEventListener('click', () => {
+      yesSize += 0.5;       // bigger jump
+      if (yesSize > 4) yesSize = 4; // max size
+      yesBtn.style.transform = `scale(${yesSize})`;
+    });
+
+    // Yes button slides to second card
+    yesBtn.addEventListener('click', () => {
+      card1.style.transform = 'translateY(-100%)';
+      card1.style.opacity = '0';
+
+      setTimeout(() => {
+        card1.style.display = 'none';
+        card2.style.display = 'block';
+        card2.style.transform = 'translateY(100%)';
+        card2.style.opacity = '0';
+        setTimeout(() => {
+          card2.style.transition = 'transform 0.6s ease, opacity 0.6s ease';
+          card2.style.transform = 'translateY(0)';
+          card2.style.opacity = '1';
+
+          // Heart explosion
+          heartExplosion(50);
+        }, 50);
+      }, 600);
+    });
+
+    // Heart rain for first card
+    const hearts = document.getElementById('hearts');
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.innerText = '💖';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = (10 + Math.random() * 20) + 'px';
+      heart.style.animationDuration = (3 + Math.random() * 3) + 's';
+      hearts.appendChild(heart);
+      setTimeout(() => hearts.removeChild(heart), 6000);
+    }
+    setInterval(createHeart, 300);
+
+    // Heart explosion for second card
+    function heartExplosion(count) {
+      const hearts2 = document.getElementById('hearts2');
+      for (let i = 0; i < count; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerText = '💖';
+        heart.style.left = Math.random() * 80 + 'vw';
+        heart.style.top = Math.random() * 80 + 'vh';
+        heart.style.fontSize = (15 + Math.random() * 25) + 'px';
+        heart.style.transition = 'all 1s ease-out';
+        hearts2.appendChild(heart);
+
+        const x = (Math.random() - 0.5) * 200;
+        const y = (Math.random() - 0.5) * 200;
+        setTimeout(() => {
+          heart.style.transform = `translate(${x}px, ${y}px) scale(0) rotate(${Math.random()*360}deg)`;
+          heart.style.opacity = 0;
+        }, 50);
+
+        setTimeout(() => hearts2.removeChild(heart), 1200);
+      }
+    }
+  </script>
+</body>
+</html>
